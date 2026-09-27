@@ -3,7 +3,7 @@ services:
     name: generatalk-api
     runtime: docker
     dockerContext: ./backend
-    dockerfilePath: Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     plan: free
     healthCheckPath: /api/health
     envVars:
