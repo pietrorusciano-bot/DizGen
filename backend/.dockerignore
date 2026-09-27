@@ -1,0 +1,15 @@
+.venv
+__pycache__
+*.pyc
+.env
+*.db
+*.sqlite3
+import_log.txt
+import_err.txt
+progress_log.txt
+Dockerfile
+.dockerignore
+fly.toml
+export_terms.py
+import_slengo.py
+monitor_progress.py
