@@ -1,7 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request
 
-from ..deps import get_current_user
-from ..models import User
 from ..services.transcriber import transcribe_pcm16
 
 router = APIRouter(prefix="/api/transcribe", tags=["transcribe"])
@@ -10,7 +8,6 @@ router = APIRouter(prefix="/api/transcribe", tags=["transcribe"])
 @router.post("")
 async def transcribe_audio(
     request: Request,
-    _user: User = Depends(get_current_user),
 ):
     sample_rate = int(request.query_params.get("sample_rate", "16000"))
     channels = int(request.query_params.get("channels", "1"))

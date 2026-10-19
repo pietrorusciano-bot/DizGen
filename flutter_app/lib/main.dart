@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'api_service.dart';
+import 'data/app_database.dart';
 import 'screens/home_screen.dart';
 import 'screens/welcome_screen.dart';
 
@@ -41,11 +42,23 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
+    ApiService.instance.authState.addListener(_onAuthChanged);
     _bootstrap();
   }
 
+  @override
+  void dispose() {
+    ApiService.instance.authState.removeListener(_onAuthChanged);
+    super.dispose();
+  }
+
+  void _onAuthChanged() {
+    if (mounted) setState(() {});
+  }
+
   Future<void> _bootstrap() async {
-    await ApiService.instance.loadToken();
+    await AppDatabase.instance.initialize();
+    await ApiService.instance.loadSession();
     if (!mounted) return;
     setState(() => _loading = false);
   }
@@ -58,7 +71,7 @@ class _AuthGateState extends State<AuthGate> {
         body: Center(child: CircularProgressIndicator(color: Colors.white)),
       );
     }
-    final hasToken = ApiService.instance.token != null;
-    return hasToken ? const HomeScreen() : const WelcomeScreen();
+    final hasUser = ApiService.instance.user != null;
+    return hasUser ? const HomeScreen() : const WelcomeScreen();
   }
 }

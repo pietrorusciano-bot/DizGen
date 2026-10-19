@@ -18,10 +18,12 @@ void main() {
 
   test('TermMatch parses from JSON', () {
     final match = TermMatch.fromJson({
+      'id': 1,
       'term': 'rizz',
       'definition': 'Carisma',
       'example': 'Ha un rizz incredibile',
       'familiar': false,
+      'using_generations': ['genz'],
     });
     expect(match.term, 'rizz');
     expect(match.familiar, false);

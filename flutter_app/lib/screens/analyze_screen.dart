@@ -44,6 +44,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
   final List<int> _audioBuffer = [];
   Timer? _flushTimer;
   bool _sending = false;
+  bool _transcribeErrorShown = false;
   String _baseText = '';
   String _liveTranscript = '';
   Timer? _debounce;
@@ -101,9 +102,14 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
       _liveTranscript = '';
       _audioBuffer.clear();
 
-      _streamSub = pcmStream.listen((chunk) {
-        _audioBuffer.addAll(chunk);
-      });
+      _streamSub = pcmStream.listen(
+        (chunk) {
+          _audioBuffer.addAll(chunk);
+        },
+        onError: (Object _) {
+          _showError('Errore durante la registrazione');
+        },
+      );
 
       _flushTimer = Timer.periodic(
         const Duration(seconds: _chunkSeconds),
@@ -113,6 +119,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
       setState(() {
         _recording = true;
         _matches = [];
+        _transcribeErrorShown = false;
       });
     } catch (_) {
       _showError('Impossibile avviare la registrazione');
@@ -134,8 +141,11 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
         });
         _scheduleAnalysis();
       }
-    } catch (_) {
-      // ignore single-chunk errors and keep going
+    } catch (e) {
+      if (!_transcribeErrorShown) {
+        _transcribeErrorShown = true;
+        _showError('Trascrizione non riuscita: $e');
+      }
     } finally {
       _sending = false;
     }

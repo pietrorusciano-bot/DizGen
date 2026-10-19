@@ -14,6 +14,9 @@ dependencies:
   record: ^6.2.1
   google_fonts: ^6.2.1
   scrollable_positioned_list: ^0.3.8
+  sqflite: ^2.4.4+2
+  path: ^1.9.1
+  crypto: ^3.0.7
 
 dev_dependencies:
   flutter_test:
@@ -32,3 +35,4 @@ flutter:
   assets:
     - assets/
     - assets/avatars/
+    - assets/seed/

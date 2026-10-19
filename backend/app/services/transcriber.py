@@ -12,16 +12,10 @@ GROQ_TRANSCRIBE_URL = "https://api.groq.com/openai/v1/audio/transcriptions"
 PCM_RMS_THRESHOLD = 120.0
 
 _HALLUCINATIONS = {
-    "grazie",
-    "grazie mille",
     "grazie per aver guardato",
     "grazie per la visione",
     "grazie per aver ascoltato",
     "grazie per l'ascolto",
-    "ciao",
-    "ciao ciao",
-    "arrivederci",
-    "thank you",
     "thank you for watching",
     "sottotitoli di",
     "sottotitoli creati da",
